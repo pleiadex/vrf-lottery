@@ -1,10 +1,14 @@
 # python 2.7
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from vrf import *
 from flask import Flask
 from flask import request
 from merkletools import MerkleTools
 from vrf import *
 import struct
 from cryptography.hazmat.primitives.asymmetric import rsa
+
 
 # Initialize merkle tree
 mt = MerkleTools()

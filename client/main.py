@@ -1,8 +1,11 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from vrf import VRF_verifying, RsaPublicKey
+
 from struct import pack
 import requests
 from merkletools import MerkleTools
 
-from vrf import VRF_verifying, RsaPublicKey
 
 URL = 'http://127.0.0.1:5000'
 
