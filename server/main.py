@@ -60,12 +60,12 @@ def get_random_number():
   beta_format = '>' + 'H' * 10
   pi_format = '>' + 'H' * 128
   beta_unpack = struct.unpack(beta_format, beta)
-  try:
-    pi_unpack = struct.unpack(pi_format, pi)
-  except:
-    print("pi length is bigger than 128")
-    pi_unpack = (0,) * 128
 
+  if (len(list(pi)) != 256):
+    print("pi length is 255", len(list(pi)))
+    pi  = b'\x00' + pi
+
+  pi_unpack = struct.unpack(pi_format, pi)
   result = beta_unpack[9] % total < win
 
   # return 1) merkleproof, 2) random value, pi 3) probability
