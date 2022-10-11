@@ -5,17 +5,19 @@ from vrf import VRF_verifying, RsaPublicKey
 from struct import pack
 import requests
 from merkletools import MerkleTools
+import hashlib
+import binascii
 
 
 URL = 'http://127.0.0.1:5000'
 
-params = {'data': 'hello'}
+user_random_data = 'hello'
+params = {'data': user_random_data}
 req = requests.get(url=URL + '/item', params=params)
 req_body = req.json()
 
 merkle_proof = req_body['merkle_tree']['merkle_proof']
 merkle_root = req_body['merkle_tree']['merkle_root']
-merkle_contribution = req_body['merkle_tree']['merkle_contribution']
 unpack_random_number = req_body['vrf']['random_number']
 unpack_random_number_proof = req_body['vrf']['random_number_proof']
 k = req_body['vrf']['k']
@@ -26,8 +28,17 @@ win = req_body['probability']['win']
 result = req_body['result']
 
 # merkle validate
+values = [user_random_data]
+hash_function = getattr(hashlib, 'sha256')
+for v in values:
+  v = v.encode('utf-8')
+  v = hash_function(v).hexdigest()
+  v = bytearray.fromhex(v)
+user_contribution = binascii.hexlify(v)
+
 mt = MerkleTools()
-isvalid_merkle = mt.validate_proof(merkle_proof, merkle_contribution, merkle_root)
+
+isvalid_merkle = mt.validate_proof(merkle_proof, user_contribution, merkle_root)
 # print(isvalid_merkle)
 
 # random validate
