@@ -37,6 +37,7 @@ def get_random_number():
   mt_index += 1
 
   # Get merkle root
+  print("Merkle root: %s" % mt.get_merkle_root())
   alpha = str(mt.get_merkle_root())
 
   # VRF
@@ -50,23 +51,26 @@ def get_random_number():
   n = public_numbers.n
   e = public_numbers.e
   d = private_numbers.d
-  k = 20
+  v = 20
   public_key = RsaPublicKey(n, e)
   private_key = RsaPrivateKey(n, d)
 
-  pi = VRF_prove(private_key, alpha, k)
+  pi = VRF_prove(private_key, alpha, v)
   beta = VRF_proof2hash(pi)
 
-  beta_format = '>' + 'H' * 10
   pi_format = '>' + 'H' * 128
-  beta_unpack = struct.unpack(beta_format, beta)
 
   if (len(list(pi)) != 256):
     print("pi length is 255", len(list(pi)))
     pi  = b'\x00' + pi
 
   pi_unpack = struct.unpack(pi_format, pi)
-  result = beta_unpack[9] % total < win
+
+  # beta_format = '>' + 'H' * 10
+  # beta_unpack = struct.unpack(beta_format, beta)
+  print("Random number: %s" % beta)
+  beta = int(beta, 16)
+  result = beta % total < win
 
   # return 1) merkleproof, 2) random value, pi 3) probability
   return {
@@ -77,9 +81,9 @@ def get_random_number():
     },
     "vrf": 
     {
-      "random_number": beta_unpack, 
+      "random_number": beta, 
       "random_number_proof": pi_unpack,
-      "k": k,
+      "v": v,
       "n": n,
       "e": e
     },

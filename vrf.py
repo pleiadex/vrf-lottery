@@ -120,7 +120,8 @@ def VRF_prove(private_key, alpha, k):
     return pi
 
 def VRF_proof2hash(pi, hash=hashlib.sha1):
-    beta = hash(pi).digest()
+    # beta = hash(pi).digest()
+    beta = hash(pi).hexdigest()
     return beta
 
 def VRF_verifying(public_key, alpha, pi, k):
