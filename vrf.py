@@ -129,6 +129,6 @@ def VRF_verifying(public_key, alpha, pi, k):
     EM = i2osp(m, k-1)
     EM_ = mgf1(alpha, k-1)
     if EM == EM_:
-        return "VALID"
+        return True
     else:
-        return "INVALID"
+        return False

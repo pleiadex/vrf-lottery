@@ -63,8 +63,8 @@ def get_random_number():
   try:
     pi_unpack = struct.unpack(pi_format, pi)
   except:
-    print(list(pi))
-    pi_unpack = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    print("pi length is bigger than 128")
+    pi_unpack = (0,) * 128
 
   result = beta_unpack[9] % total < win
 

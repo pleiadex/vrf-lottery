@@ -8,10 +8,15 @@ from merkletools import MerkleTools
 import hashlib
 import binascii
 
+import string
+import random
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+  return ''.join(random.choice(chars) for _ in range(size))
 
 URL = 'http://127.0.0.1:5000'
 
-user_random_data = 'hello'
+user_random_data = id_generator()
 params = {'data': user_random_data}
 req = requests.get(url=URL + '/item', params=params)
 req_body = req.json()
@@ -59,3 +64,5 @@ else:
     print("Merkle proof is invalid.")
   if (not isvalid_random_number):
     print("The random number is invalid.")
+  if (result != calculated_result):
+    print("The result is invalid.")
