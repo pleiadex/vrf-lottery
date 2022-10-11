@@ -72,7 +72,6 @@ def get_random_number():
   return {
     "merkle_tree": 
     {
-      "merkle_contribution": mt.get_leaf(mt_index),
       "merkle_proof": mt.get_proof(mt_index),
       "merkle_root": mt.get_merkle_root()
     },
