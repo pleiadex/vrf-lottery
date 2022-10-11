@@ -25,12 +25,13 @@ def get_random_number():
   global mt_index
 
   total = 10
-  win = 2
+  win = 5
 
   # Get random data
   data = request.args.get('data')
 
   # Add merkle leaf
+  # TODO: reset merkle tree if it is too big
   mt.add_leaf(data, True)
   mt.make_tree()
   mt_index += 1
@@ -62,7 +63,8 @@ def get_random_number():
   try:
     pi_unpack = struct.unpack(pi_format, pi)
   except:
-    print(pi)
+    print(list(pi))
+    pi_unpack = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
   result = beta_unpack[9] % total < win
 
